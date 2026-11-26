@@ -1,0 +1,50 @@
+# Check cask metadata, downloads and installation on an isolated macOS runner.
+# No app is launched and no user music or account data is read.
+name: Cask CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cask-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cask:
+    runs-on: macos-latest
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+      HOMEBREW_NO_ANALYTICS: 1
+    steps:
+      - uses: actions/checkout@v7
+      - name: Register this checkout as the tap
+        run: |
+          tap_path="$(brew --repository)/Library/Taps/debuneko233/homebrew-nyago-music"
+          mkdir -p "$(dirname "$tap_path")"
+          ln -s "$GITHUB_WORKSPACE" "$tap_path"
+      - name: Check cask style
+        run: brew style Casks/nyago-music.rb
+      - name: Audit both architectures
+        run: brew audit --cask --online --arch=all debuneko233/nyago-music/nyago-music
+      - name: Verify both downloads
+        run: |
+          brew fetch --cask --arch=arm64 debuneko233/nyago-music/nyago-music
+          brew fetch --cask --arch=x86_64 debuneko233/nyago-music/nyago-music
+      - name: Install and verify without launching
+        run: |
+          mkdir -p "$RUNNER_TEMP/nyago-apps"
+          brew install --cask --appdir="$RUNNER_TEMP/nyago-apps" debuneko233/nyago-music/nyago-music
+          codesign --verify --deep --strict "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app/Contents/Info.plist")" = "$(brew info --json=v2 --cask debuneko233/nyago-music/nyago-music | jq -r '.casks[0].version')"
+      - name: Uninstall the test app
+        if: always()
+        run: |
+          if brew list --cask nyago-music >/dev/null 2>&1; then
+            brew uninstall --cask nyago-music
+          fi
