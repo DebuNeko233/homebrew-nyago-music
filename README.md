@@ -53,8 +53,8 @@ brew uninstall --cask nyago-music
 ```sh
 brew style Casks/nyago-music.rb
 brew audit --cask --online --arch=all debuneko233/nyago-music/nyago-music
-brew fetch --cask --arch=arm64 debuneko233/nyago-music/nyago-music
-brew fetch --cask --arch=x86_64 debuneko233/nyago-music/nyago-music
+brew fetch --cask --arch=arm debuneko233/nyago-music/nyago-music
+brew fetch --cask --arch=intel debuneko233/nyago-music/nyago-music
 ```
 
 本仓库的 [CI](.github/workflows/ci.yml) 检查 cask 格式、两个架构的下载与摘要，并在 macOS runner 的临时应用目录验证安装、包签名及卸载。它不登录音乐账号、不启动播放器，也不代表已经验证所有 macOS 版本的播放行为。

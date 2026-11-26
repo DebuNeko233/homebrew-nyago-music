@@ -39,8 +39,8 @@ jobs:
         run: brew audit --cask --online --arch=all debuneko233/nyago-music/nyago-music
       - name: Verify both downloads
         run: |
-          brew fetch --cask --arch=arm64 debuneko233/nyago-music/nyago-music
-          brew fetch --cask --arch=x86_64 debuneko233/nyago-music/nyago-music
+          brew fetch --cask --arch=arm debuneko233/nyago-music/nyago-music
+          brew fetch --cask --arch=intel debuneko233/nyago-music/nyago-music
       - name: Install and verify without launching
         run: |
           mkdir -p "$RUNNER_TEMP/nyago-apps"
