@@ -12,7 +12,7 @@ brew install --cask debuneko233/nyago-music/nyago-music
 
 Homebrew 7 要求先信任第三方安装定义；这里仅信任 `nyago-music` cask。旧版 Homebrew 如果没有 `trust` 命令，可跳过第二步。已经添加并信任后，直接运行最后一条安装命令即可。
 
-当前正式版为 `0.3.0`。安装到「应用程序」后的名称仍为「MyGo 云音乐」，与正式安装包一致。此 tap 分发原始安装包，使用两个架构各自的 SHA-256 校验，不重打包应用。
+当前正式版为 `0.3.1`。安装到「应用程序」后的名称为「Nyago Music」，与正式安装包一致。此 tap 分发原始安装包，使用两个架构各自的 SHA-256 校验，不重打包应用。
 
 如果已经手动安装同名应用，Homebrew 可能提示目标已存在。请先退出应用，将原应用移出「应用程序」后再安装；不要删除配置、缓存或钥匙串数据。
 
@@ -55,7 +55,7 @@ brew uninstall --cask --zap nyago-music
 
 旧版 `MyGo 云音乐` 目录、`Nyago Music Dev` 开发目录、系统钥匙串、自选缓存/下载目录及 `~/Music/Nyago Music` 中的歌曲均不清理，不通过通配符删除共享 bundle identifier 对应的数据。
 
-当前 tap 仍安装已发布的 `v0.3.0`，该版本使用旧目录。应用 main 中的后续构建才使用 Nyago Music 专用目录，并直接使用默认设置和空缓存；旧目录保留原处，不读取或迁移。这里的清理规则不会删除 `v0.3.0` 的旧目录。
+从 `v0.3.1` 开始，正式安装包使用 Nyago Music 专用目录，直接使用默认设置和空缓存。旧目录保留原处，不读取或迁移；清理规则不会删除 `v0.3.0` 及更早版本的旧目录。
 
 ## 维护与发版
 
@@ -71,7 +71,7 @@ brew fetch --cask --arch=arm debuneko233/nyago-music/nyago-music
 brew fetch --cask --arch=intel debuneko233/nyago-music/nyago-music
 ```
 
-本仓库的 [CI](.github/workflows/ci.yml) 检查 cask 格式、两个架构的下载与摘要，并在 macOS runner 的临时应用目录验证安装、包签名、普通卸载保留数据和显式 `--zap` 仅清理新目录。它不登录音乐账号、不启动播放器，也不代表已经验证所有 macOS 版本的播放行为。
+本仓库的 [CI](.github/workflows/ci.yml) 检查 cask 格式、两个架构的下载与摘要，并在 macOS runner 的临时应用目录验证从 `v0.3.0` 旧应用名升级、包签名、普通卸载保留数据和显式 `--zap` 仅清理新目录。它不登录音乐账号、不启动播放器，也不代表已经验证所有 macOS 版本的播放行为。
 
 ## 许可证
 

@@ -42,12 +42,20 @@ jobs:
         run: |
           brew fetch --cask --arch=arm debuneko233/nyago-music/nyago-music
           brew fetch --cask --arch=intel debuneko233/nyago-music/nyago-music
-      - name: Install and verify without launching
+      - name: Upgrade from the legacy app name and verify without launching
         run: |
           mkdir -p "$RUNNER_TEMP/nyago-apps"
+          cp Casks/nyago-music.rb "$RUNNER_TEMP/current-cask.rb"
+          trap 'cp "$RUNNER_TEMP/current-cask.rb" Casks/nyago-music.rb' EXIT
+          git fetch --depth=1 origin 4d8707631595e1d74ae5583a216a4f15c45ff4c1
+          git show 4d8707631595e1d74ae5583a216a4f15c45ff4c1:Casks/nyago-music.rb > Casks/nyago-music.rb
           brew install --cask --appdir="$RUNNER_TEMP/nyago-apps" debuneko233/nyago-music/nyago-music
-          codesign --verify --deep --strict "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app"
-          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app/Contents/Info.plist")" = "$(brew info --json=v2 --cask debuneko233/nyago-music/nyago-music | jq -r '.casks[0].version')"
+          test -d "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app"
+          cp "$RUNNER_TEMP/current-cask.rb" Casks/nyago-music.rb
+          brew upgrade --cask --greedy --appdir="$RUNNER_TEMP/nyago-apps" debuneko233/nyago-music/nyago-music
+          test ! -e "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app"
+          codesign --verify --deep --strict "$RUNNER_TEMP/nyago-apps/Nyago Music.app"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$RUNNER_TEMP/nyago-apps/Nyago Music.app/Contents/Info.plist")" = "$(brew info --json=v2 --cask debuneko233/nyago-music/nyago-music | jq -r '.casks[0].version')"
       - name: Verify cleanup preserves old and user-owned data
         run: |
           managed=("$HOME/Library/Application Support/Nyago Music" "$HOME/Library/Caches/Nyago Music" "$HOME/Library/Logs/Nyago Music")
