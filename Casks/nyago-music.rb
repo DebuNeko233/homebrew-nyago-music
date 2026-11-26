@@ -24,4 +24,10 @@ cask "nyago-music" do
   app "MyGo 云音乐.app"
 
   uninstall quit: "dev.egoist.cloudmusic"
+
+  zap trash: [
+    "~/Library/Application Support/Nyago Music",
+    "~/Library/Caches/Nyago Music",
+    "~/Library/Logs/Nyago Music",
+  ]
 end

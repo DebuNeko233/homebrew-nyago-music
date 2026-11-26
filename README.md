@@ -41,7 +41,21 @@ brew livecheck --cask debuneko233/nyago-music/nyago-music
 brew uninstall --cask nyago-music
 ```
 
-卸载只移除 Homebrew 管理的应用。此 tap 不提供 `zap` 数据清理规则，因为应用沿用旧版本的标识和数据目录，自动清理可能删除用户仍需保留的曲库、缓存和登录数据。
+普通卸载只移除 Homebrew 管理的应用，保留数据。需要清理 Nyago Music 正式版专用目录时，显式运行：
+
+```sh
+brew uninstall --cask --zap nyago-music
+```
+
+`--zap` 仅将以下目录移至废纸篓：
+
+- `~/Library/Application Support/Nyago Music`（设置、播放会话、曲库索引、离线账号与字幕模型）
+- `~/Library/Caches/Nyago Music`（默认歌曲、页面、图片与字幕缓存）
+- `~/Library/Logs/Nyago Music`（如有）
+
+旧版 `MyGo 云音乐` 目录、`Nyago Music Dev` 开发目录、系统钥匙串、自选缓存/下载目录及 `~/Music/Nyago Music` 中的歌曲均不清理，不通过通配符删除共享 bundle identifier 对应的数据。
+
+当前 tap 仍安装已发布的 `v0.3.0`，该版本使用旧目录。应用 main 中的后续构建才使用 Nyago Music 专用目录，并直接使用默认设置和空缓存；旧目录保留原处，不读取或迁移。这里的清理规则不会删除 `v0.3.0` 的旧目录。
 
 ## 维护与发版
 
@@ -57,7 +71,7 @@ brew fetch --cask --arch=arm debuneko233/nyago-music/nyago-music
 brew fetch --cask --arch=intel debuneko233/nyago-music/nyago-music
 ```
 
-本仓库的 [CI](.github/workflows/ci.yml) 检查 cask 格式、两个架构的下载与摘要，并在 macOS runner 的临时应用目录验证安装、包签名及卸载。它不登录音乐账号、不启动播放器，也不代表已经验证所有 macOS 版本的播放行为。
+本仓库的 [CI](.github/workflows/ci.yml) 检查 cask 格式、两个架构的下载与摘要，并在 macOS runner 的临时应用目录验证安装、包签名、普通卸载保留数据和显式 `--zap` 仅清理新目录。它不登录音乐账号、不启动播放器，也不代表已经验证所有 macOS 版本的播放行为。
 
 ## 许可证
 

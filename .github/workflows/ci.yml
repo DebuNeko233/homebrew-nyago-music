@@ -48,6 +48,27 @@ jobs:
           brew install --cask --appdir="$RUNNER_TEMP/nyago-apps" debuneko233/nyago-music/nyago-music
           codesign --verify --deep --strict "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app"
           test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$RUNNER_TEMP/nyago-apps/MyGo 云音乐.app/Contents/Info.plist")" = "$(brew info --json=v2 --cask debuneko233/nyago-music/nyago-music | jq -r '.casks[0].version')"
+      - name: Verify cleanup preserves old and user-owned data
+        run: |
+          managed=("$HOME/Library/Application Support/Nyago Music" "$HOME/Library/Caches/Nyago Music" "$HOME/Library/Logs/Nyago Music")
+          preserved=("$HOME/Library/Application Support/MyGo 云音乐" "$HOME/Library/Caches/MyGo 云音乐" "$HOME/Library/Logs/MyGo 云音乐" "$HOME/Library/Application Support/Nyago Music Dev" "$HOME/Library/Caches/Nyago Music Dev" "$HOME/Library/Logs/Nyago Music Dev" "$HOME/Music/Nyago Music" "$HOME/nyago-custom-cache")
+          for path in "${managed[@]}" "${preserved[@]}"; do
+            test ! -e "$path"
+            mkdir -p "$path"
+            printf '%s\n' 'cleanup fixture' > "$path/keep.txt"
+          done
+          brew uninstall --cask nyago-music
+          for path in "${managed[@]}" "${preserved[@]}"; do
+            test -f "$path/keep.txt"
+          done
+          brew install --cask --appdir="$RUNNER_TEMP/nyago-apps" debuneko233/nyago-music/nyago-music
+          brew uninstall --cask --zap nyago-music
+          for path in "${managed[@]}"; do
+            test ! -e "$path"
+          done
+          for path in "${preserved[@]}"; do
+            test -f "$path/keep.txt"
+          done
       - name: Uninstall the test app
         if: always()
         run: |
