@@ -71,7 +71,7 @@ brew fetch --cask --arch=arm debuneko233/nyago-music/nyago-music
 brew fetch --cask --arch=intel debuneko233/nyago-music/nyago-music
 ```
 
-本仓库的 [CI](.github/workflows/ci.yml) 检查 cask 格式、两个架构的下载与摘要，并在 macOS runner 的临时应用目录验证从 `v0.3.0` 旧应用名升级、包签名、普通卸载保留数据和显式 `--zap` 仅清理新目录。它不登录音乐账号、不启动播放器，也不代表已经验证所有 macOS 版本的播放行为。
+本仓库的 [CI](.github/workflows/ci.yml) 检查 cask 格式、两个架构的下载与摘要，并在 macOS runner 的临时应用目录验证安装、包签名、普通卸载保留数据和显式 `--zap` 仅清理新目录。它不登录音乐账号、不启动播放器，也不代表已经验证所有 macOS 版本的播放行为。
 
 ## 许可证
 
