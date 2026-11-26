@@ -12,7 +12,9 @@ brew install --cask debuneko233/nyago-music/nyago-music
 
 Homebrew 7 要求先信任第三方安装定义；这里仅信任 `nyago-music` cask。旧版 Homebrew 如果没有 `trust` 命令，可跳过第二步。已经添加并信任后，直接运行最后一条安装命令即可。
 
-当前正式版为 `0.3.1`。安装到「应用程序」后的名称为「Nyago Music」，与正式安装包一致。此 tap 分发原始安装包，使用两个架构各自的 SHA-256 校验，不重打包应用。
+当前正式版为 `0.3.2`。安装到「应用程序」后的名称为「Nyago Music」，与正式安装包一致。此 tap 分发原始安装包，使用两个架构各自的 SHA-256 校验，不重打包应用。
+
+`v0.3.2` 起使用独立应用标识 `io.github.debuneko233.nyagomusic`，升级后需要重新登录；现有 Nyago Music 配置、曲库、播放会话及缓存继续保留。升级时不要使用 reset 或 `--zap`。
 
 如果已经手动安装同名应用，Homebrew 可能提示目标已存在。请先退出应用，将原应用移出「应用程序」后再安装；不要删除配置、缓存或钥匙串数据。
 

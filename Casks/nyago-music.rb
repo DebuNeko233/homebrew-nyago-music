@@ -3,11 +3,11 @@
 cask "nyago-music" do
   arch arm: "arm64", intel: "amd64"
 
-  version "0.3.1"
-  sha256 arm:   "c4cbb60fd194308b40a394e95b1a51115e8f1b7435e24cedb9962f4e815a5d22",
-         intel: "908be5c7e0fb8800412dbda0e0ac933803ff8337d1e8cdb709bf456e6fdb134a"
+  version "0.3.2"
+  sha256 arm:   "c748beae80ae2f37fced37a6c33fce88591110cdd044569c7910d9aaea9b482e",
+         intel: "de561c06ff00b60a00c770c763315c8a369ca07a22c9ed8d42a27bdf9745423e"
 
-  url "https://github.com/DebuNeko233/nyago-music/releases/download/v#{version}/mygo-cloudmusic-#{version}-#{arch}.dmg"
+  url "https://github.com/DebuNeko233/nyago-music/releases/download/v#{version}/nyago-music-#{version}-#{arch}.dmg"
   name "Nyago Music"
   desc "Native desktop music player built with Go and MyGo"
   homepage "https://github.com/DebuNeko233/nyago-music"
@@ -23,7 +23,7 @@ cask "nyago-music" do
 
   app "Nyago Music.app"
 
-  uninstall quit: "dev.egoist.cloudmusic"
+  uninstall quit: "io.github.debuneko233.nyagomusic"
 
   zap trash: [
     "~/Library/Application Support/Nyago Music",
