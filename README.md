@@ -5,15 +5,12 @@
 ## 安装
 
 ```sh
+brew tap debuneko233/nyago-music
+brew trust --cask debuneko233/nyago-music/nyago-music
 brew install --cask debuneko233/nyago-music/nyago-music
 ```
 
-也可以先添加仓库：
-
-```sh
-brew tap debuneko233/nyago-music
-brew install --cask nyago-music
-```
+Homebrew 7 要求先信任第三方安装定义；这里仅信任 `nyago-music` cask。旧版 Homebrew 如果没有 `trust` 命令，可跳过第二步。已经添加并信任后，直接运行最后一条安装命令即可。
 
 当前正式版为 `0.3.0`。安装到「应用程序」后的名称仍为「MyGo 云音乐」，与正式安装包一致。此 tap 分发原始安装包，使用两个架构各自的 SHA-256 校验，不重打包应用。
 

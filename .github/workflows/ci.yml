@@ -28,6 +28,11 @@ jobs:
           tap_path="$(brew --repository)/Library/Taps/debuneko233/homebrew-nyago-music"
           mkdir -p "$(dirname "$tap_path")"
           ln -s "$GITHUB_WORKSPACE" "$tap_path"
+      - name: Trust this cask when required by Homebrew
+        run: |
+          if brew help trust >/dev/null 2>&1; then
+            brew trust --cask debuneko233/nyago-music/nyago-music
+          fi
       - name: Check cask style
         run: brew style Casks/nyago-music.rb
       - name: Audit both architectures
