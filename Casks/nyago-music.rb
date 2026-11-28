@@ -3,9 +3,9 @@
 cask "nyago-music" do
   arch arm: "arm64", intel: "amd64"
 
-  version "0.3.2"
-  sha256 arm:   "c748beae80ae2f37fced37a6c33fce88591110cdd044569c7910d9aaea9b482e",
-         intel: "de561c06ff00b60a00c770c763315c8a369ca07a22c9ed8d42a27bdf9745423e"
+  version "0.3.3"
+  sha256 arm:   "53705cbfb12e15a1d39e9b08d08fca3fc60ff06ab950eb01975bbb31748fb57b",
+         intel: "d18eaa3b2380cb29d1aa575ab74c903a1272f28c808520111516116dd277fa24"
 
   url "https://github.com/DebuNeko233/nyago-music/releases/download/v#{version}/nyago-music-#{version}-#{arch}.dmg"
   name "Nyago Music"
